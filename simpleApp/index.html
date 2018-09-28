@@ -1,0 +1,44 @@
+<html>
+<head>
+<script src="https://unpkg.com/react@15/dist/react.min.js"> </script><script src="https://unpkg.com/react-dom@15/dist/react-dom.min.js">
+</script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+    <h1>Price Monitor</h1>
+    <div id="root"></div>
+    <script type="text/babel">
+
+    class StockPrice extends React.Component {
+
+        constructor() {
+            super();
+            this.state = {
+                price: 6988
+            };
+            this.updatePrice = this.updatePrice.bind(this);
+        }
+
+        updatePrice() {
+            this.setState({
+                price: this.state.price + 1
+            });
+        }
+
+        render() {
+           return (
+               <div>
+				   <h1>Stock price for {this.props.instrument}: {this.state.price}</h1>
+                   <button onClick={this.updatePrice}>Update</button>
+               </div>
+           )
+        }
+    }
+
+    ReactDOM.render(
+        <StockPrice instrument="6758.T" />,
+        document.getElementById("root")
+    );
+    </script>
+</body>
+</html>
