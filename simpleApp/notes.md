@@ -20,3 +20,7 @@ There are two types of data in React: props and state. The difference between th
 The key difference is that state is private and can be changed from within the component itself. Props are external, and not controlled by the component itself. It’s passed down from components higher up the hierarchy, who also control the data.
 
 A component can change its internal state directly. It can not change its props directly.
+
+### Debugging
+
+Go to dev mode in Chrome: Ctrl + Shift + I
