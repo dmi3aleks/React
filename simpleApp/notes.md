@@ -21,6 +21,14 @@ The key difference is that state is private and can be changed from within the c
 
 A component can change its internal state directly. It can not change its props directly.
 
+### Functional Components
+
+In React, functional components are a simpler way to write components that only contain a render method and don’t have their own state. Instead of defining a class which extends React.Component, we can write a function that takes props as input and returns what should be rendered. Functional components are less tedious to write than classes, and many components can be expressed this way.
+
 ### Debugging
 
 Go to dev mode in Chrome: Ctrl + Shift + I
+
+#### React Devtools extension
+
+The React Devtools extension for Chrome and Firefox lets you inspect a React component tree with your browser’s developer tools.
