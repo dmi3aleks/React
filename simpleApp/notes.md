@@ -32,3 +32,10 @@ Go to dev mode in Chrome: Ctrl + Shift + I
 #### React Devtools extension
 
 The React Devtools extension for Chrome and Firefox lets you inspect a React component tree with your browser’s developer tools.
+
+### CSS
+
+Can be linked to HTML using the link tag:
+```
+<link rel="stylesheet" href="index.css">
+```
