@@ -39,3 +39,27 @@ Can be linked to HTML using the link tag:
 ```
 <link rel="stylesheet" href="index.css">
 ```
+
+## Fetching data from API
+
+Using "fetch" command:
+
+```
+    componentDidMount() {
+        fetch('https://www.alphavantage.co/query?apikey=UEW52BCFH9Z5FMD7&function=TIME_SERIES_DAILY_ADJUSTED&symbol=GOOGL')
+            .then(results => { return results.json(); } )
+            .then(data => {
+                var timeSeries = data["Time Series (Daily)"];
+                console.log(timeSeries);
+                var prices = [];
+                for(var key in timeSeries) {
+                    console.log(key + " : " + timeSeries[key]["1. open"]);
+                    prices.push(key + " : " + timeSeries[key]["1. open"] + " \n");
+                }
+                this.setState({prices:prices});
+            })
+    }
+
+```
+
+https://blog.hellojs.org/fetching-api-data-with-react-js-460fe8bbf8f2
