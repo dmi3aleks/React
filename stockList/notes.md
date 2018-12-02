@@ -118,3 +118,172 @@ node --version
 create-react-app dashboard
 npm start
 ```
+
+## App architecture
+
+Front-end:
+  React.js
+
+Backend:
+  * Jersey-based Java REST server;
+  * Hybernate;
+  * PostgreSQL.
+
+Alternative Java-based Web app:
+  * Spring Boot.
+
+## Notes on PostgreSQL
+
+### Installation
+
+Install packages:
+```
+sudo dnf install postgresql-server
+sudo postgresql-setup --initdb
+```
+
+Start the service:
+```
+sudo systemctl start postgresql
+systemctl status postgresql
+```
+
+Set password for the new special user "postgres":
+```
+su - root
+passwd postgress
+# type a new password twice
+```
+
+Switch to the special user "postgres":
+```
+su - postgres
+```
+
+Enter the PostgreSQL interactive management tool:
+```
+psql
+```
+
+Create a new user (named "app" in this case):
+```
+createuser app -P
+```
+
+Create a new database (name "db" in this case):
+```
+createdb --owner=app db
+```
+
+Edit PostgreSQL configuration to allow user authentication:
+```
+sudo vim /var/lib/pgsql/data/pg_hba.conf
+# change "ident" method to "md5" or "trust" (for testing purposes):
+
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+# "local" is for Unix domain socket connections only
+local   all             all                                     trust
+# IPv4 local connections:
+host    all             all             127.0.0.1/32            trust
+# IPv6 local connections:
+host    all             all             ::1/128                 trust
+```
+
+Restart the service and verify that it runs successfully:
+```
+sudo systemctl restart postgresql
+systemctl status postgresql
+```
+
+### Connecting to the database
+
+From the regular (non-"postgres") user, connect to the database as follows:
+
+```
+psql -h localhost -U app db
+```
+
+To list all the available databases run:
+```
+\l
+# alternatively:
+\list
+```
+
+To list all the available tables run:
+```
+\d
+# alternatively
+\dt
+```
+
+To exit:
+```
+\q
+```
+
+### Creating tables
+
+To create a table, connect to the database:
+```
+psql -h localhost -U app db
+```
+
+And then define a table using Data Definition Language, E.g. as follows:
+```sql
+CREATE TABLE instrument (
+        timestamp date,
+        instrument_id serial PRIMARY KEY,
+        name varchar (128) NOT NULL,
+        description varchar (256) NOT NULL
+);
+```
+
+The resulting table should be visible now:
+```
+\d
+
+# Outputs:
+
+st of relations
+ Schema |             Name             |   Type   | Owner
+--------+------------------------------+----------+-------
+ public | instrument                   | table    | app
+ public | instrument_instrument_id_seq | sequence | app
+(2 rows)
+```
+
+Table schema can be change later using the following syntax:
+```
+ALTER TABLE instrument ADD COLUMN is_active bool;
+```
+
+To delete an existing table:
+```
+DROP TABLE instrument;
+```
+
+### Insert data into tables
+
+Insert data using psql command line:
+
+```sql
+INSERT INTO instrument (timestamp, name, description) VALUES (CURRENT_TIMESTAMP, "6758.T", "Sony Co.Ltd.");
+INSERT INTO instrument (timestamp, name, description) VALUES (CURRENT_TIMESTAMP, '6753.T', 'Sharp Co.Ltd.');
+INSERT INTO instrument (timestamp, name, description) VALUES (CURRENT_TIMESTAMP, '6702.T', 'Fujitsu Co.Ltd.');
+```
+
+Check the data:
+```
+SELECT * FROM instrument;
+
+# Outputs:
+
+ timestamp  | instrument_id |  name  |   description
+------------+---------------+--------+-----------------
+ 2018-12-02 |             1 | 6758.T | Sony Co.Ltd.
+ 2018-12-02 |             2 | 6753.T | Sharp Co.Ltd.
+ 2018-12-02 |             3 | 6702.T | Fujitsu Co.Ltd.
+(3 rows)
+```
