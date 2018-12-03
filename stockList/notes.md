@@ -287,3 +287,32 @@ SELECT * FROM instrument;
  2018-12-02 |             3 | 6702.T | Fujitsu Co.Ltd.
 (3 rows)
 ```
+
+Add a relation (note that foreign key is defined using the "REFERENCES" keyword):
+
+```sql
+CREATE TABLE orders (
+        timestamp date,
+        order_id serial PRIMARY KEY,
+        version bigint,
+        inst_id serial REFERENCES instrument(instrument_id),
+        price real,
+        quantity real,
+        notes varchar (256) NOT NULL
+);
+
+INSERT INTO orders (timestamp, version, inst_id, price, quantity, notes) VALUES (CURRENT_TIMESTAMP, 1, 2, 7800, 10000, 'Direct order');
+```
+
+We can now join to the secondary table in a query:
+
+```sql
+SELECT * FROM orders INNER JOIN instrument ON instrument.instrument_id=orders.inst_id;
+
+# Outputs:
+
+ timestamp  | order_id | version | inst_id | price | quantity |    notes     | timestamp  | instrument_id |  name  |  description
+------------+----------+---------+---------+-------+----------+--------------+------------+---------------+--------+---------------
+ 2018-12-02 |        1 |       1 |       2 |  7800 |    10000 | Direct order | 2018-12-02 |             2 | 6753.T | Sharp Co.Ltd.
+(1 row)
+```

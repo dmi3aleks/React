@@ -17,6 +17,19 @@ class Instrument {
 let inst = new Instrument('Sony', '7800')
 console.log(inst.getPrice())
 
+const inst_details = {
+    // use Spread syntax to extract a flat map of properties from inst
+    ...inst,
+    type: 'equity'
+}
+
+console.log(JSON.stringify(inst_details))
+
+const nums = [1,2,3]
+const numsSquare = nums.map((n) => { return Math.pow(n, 2) })
+console.log(numsSquare)
+
+
 function Trade(props) {
   return (
     <div className="trade">
@@ -27,12 +40,53 @@ function Trade(props) {
   );
 };
 
-var app = (
-  <div>
-    <Trade instr="Sony" price="7800" consid={consideration(7800,10)}/>
-    <Trade instr="Sharp" price="5800"/>
-    <Trade instr="NipponRadio" price="8800"/>
-  </div>
-);
+class App extends React.Component {
 
-ReactDOM.render(app, document.querySelector('#app'));
+  constructor() {
+    super()
+
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  state = {
+    orders: []
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(()=> this.getOrders(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer)
+    this.timer = null
+  }
+
+  getOrders() {
+    axios.get(`http://localhost:8080/order`)
+      .then(res => {
+        console.log(res.data);
+        console.log(res.data.length);
+        const order_list = res.data;
+        this.setState({ orders: order_list });
+      });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Orders:</h1>
+        <ul>
+          {this.state.orders.map(order =>
+            <li key={order.OrderID}>#{order.OrderID}: {order.Quantity}@{order.Price} of {order.InstrID}</li>
+          )}
+        </ul>
+      </div>
+    );
+  }
+
+  handleClick() {
+    console.log("Click")
+  }
+}
+
+ReactDOM.render(<App />, document.getElementById("app"));
