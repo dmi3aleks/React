@@ -1,9 +1,3 @@
-// Arrow Function for Consideration calculation
-const consideration = (price, volume) => {
-  let cons = price * volume;
-  return cons;
-}
-
 class Instrument {
   constructor(name, currentPrice) {
     this.name = name
@@ -16,11 +10,22 @@ function Trade(props) {
   return (
     <div className="trade">
       <h1>{props.instr}</h1>
-      <p>Price: {props.price}</p>
-      <p>Consideration: {props.consid}</p>
+      <p>{props.quantity}@{props.price}</p>
     </div>
   );
 };
+
+function Order(props) {
+  return (
+	<tr>
+	  <td>{props.instrument}</td>
+	  <td>{props.quantity}</td>
+	  <td>{props.price}</td>
+	  <td>{props.notes}</td>
+    </tr>
+  );
+};
+
 
 class TextInput extends React.Component {
 
@@ -37,7 +42,8 @@ class TextInput extends React.Component {
         return (
             <div>
               <label for="in">{this.props.input_name}: </label>
-              <input id="in" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
+              <br />
+              <input id="in" style={{display:'inline'}} value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
             </div>
         )
     }
@@ -49,7 +55,7 @@ class TextInput extends React.Component {
     }
 
     submitInputValue(evt) {
-        this.props.onInputUpdate(this.props.input_name, evt.target.value);
+        this.props.onInputUpdate(this.props.tag, evt.target.value);
     }
 }
 
@@ -69,6 +75,7 @@ class App extends React.Component {
   onNewOrderUpdate(key, value) {
     var ord_p = this.state.ord_props
     ord_p[key] = value
+    console.log("onNewOrderUpdate: " + key + ":" + value);
 	this.setState({ ord_props: ord_p })
   }
 
@@ -87,16 +94,17 @@ class App extends React.Component {
         console.log(res.data);
         console.log(res.data.length);
         const order_list = res.data;
-        this.setState({ orders: order_list });
+        this.setState({ orders: order_list.reverse() });
       });
   }
 
   handleClick() {
+    console.log('Price: ' + this.state.ord_props.price)
     axios.post('http://localhost:8080/order/add', {
-      "instCode": this.state.ord_props.InstrumentCode,
-	  "quantity": this.state.ord_props.quantity,
-	  "price": this.state.ord_props.price,
-      "notes": "ord",
+      "instCode": this.state.ord_props.instcode,
+      "quantity": this.state.ord_props.quantity,
+      "price": this.state.ord_props.price,
+      "notes": this.state.ord_props.notes,
 	})
 	.then(
 		(response) => { console.log(response); this.getOrders() },
@@ -107,19 +115,31 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Order entry</h1>
-	    <TextInput
-		   onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="InstrumentCode"/>
-	    <TextInput
-		   onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="quantity"/>
-	    <TextInput
-		   onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="price"/>
-        <button onClick={this.handleClick}>Send order</button>
+        <div>
+          <h1>Order entry</h1>
+          <TextInput
+             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Instrument" tag="instcode"/>
+          <TextInput
+             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Quantity" tag="quantity"/>
+          <TextInput
+             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Price" tag="price"/>
+          <TextInput
+             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Notes" tag="notes"/>
+          <button className="button" id="btn" onClick={this.handleClick}>Send order</button>
+        </div>
         <h1>Orders</h1>
         <ul>
-          {this.state.orders.reverse().map(order =>
-            <li key={order.OrderID}>#{order.OrderID}: {order.Quantity}@{order.Price} of {order.InstrID}</li>
+        <table id="orders">
+          <tr>
+            <th>Instrument</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Notes</th>
+          </tr>
+          {this.state.orders.map(order =>
+            <Order instrument={order.InstrCode} quantity={order.Quantity} price={order.Price} notes={order.Notes} />
           )}
+        </table>
         </ul>
       </div>
     );
