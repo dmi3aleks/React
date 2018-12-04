@@ -1,5 +1,3 @@
-//import {consideration} from './calc.js'
-
 // Arrow Function for Consideration calculation
 const consideration = (price, volume) => {
   let cons = price * volume;
@@ -14,22 +12,6 @@ class Instrument {
   getPrice = () => { return this.currentPrice }
 }
 
-let inst = new Instrument('Sony', '7800')
-console.log(inst.getPrice())
-
-const inst_details = {
-    // use Spread syntax to extract a flat map of properties from inst
-    ...inst,
-    type: 'equity'
-}
-
-console.log(JSON.stringify(inst_details))
-
-const nums = [1,2,3]
-const numsSquare = nums.map((n) => { return Math.pow(n, 2) })
-console.log(numsSquare)
-
-
 function Trade(props) {
   return (
     <div className="trade">
@@ -40,6 +22,37 @@ function Trade(props) {
   );
 };
 
+class TextInput extends React.Component {
+
+    constructor(props) {
+        super(props);
+        console.log(props)
+        this.state = {
+            inputValue: ''
+        }
+    }
+
+    render() {
+
+        return (
+            <div>
+              <label for="in">{this.props.input_name}: </label>
+              <input id="in" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
+            </div>
+        )
+    }
+
+    updateInputValue(evt) {
+        this.setState({
+            inputValue: evt.target.value
+        });
+    }
+
+    submitInputValue(evt) {
+        this.props.onInputUpdate(this.props.input_name, evt.target.value);
+    }
+}
+
 class App extends React.Component {
 
   constructor() {
@@ -49,11 +62,18 @@ class App extends React.Component {
   }
 
   state = {
-    orders: []
+    orders: [],
+    ord_props: {}
+  }
+
+  onNewOrderUpdate(key, value) {
+    var ord_p = this.state.ord_props
+    ord_p[key] = value
+	this.setState({ ord_props: ord_p })
   }
 
   componentDidMount() {
-    this.timer = setInterval(()=> this.getOrders(), 1000);
+    this.getOrders()
   }
 
   componentWillUnmount() {
@@ -71,12 +91,33 @@ class App extends React.Component {
       });
   }
 
+  handleClick() {
+    axios.post('http://localhost:8080/order/add', {
+      "instCode": this.state.ord_props.InstrumentCode,
+	  "quantity": this.state.ord_props.quantity,
+	  "price": this.state.ord_props.price,
+      "notes": "ord",
+	})
+	.then(
+		(response) => { console.log(response); this.getOrders() },
+		(error) => { console.log(error) }
+	);
+  }
+
   render() {
     return (
       <div>
-        <h1>Orders:</h1>
+        <h1>Order entry</h1>
+	    <TextInput
+		   onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="InstrumentCode"/>
+	    <TextInput
+		   onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="quantity"/>
+	    <TextInput
+		   onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="price"/>
+        <button onClick={this.handleClick}>Send order</button>
+        <h1>Orders</h1>
         <ul>
-          {this.state.orders.map(order =>
+          {this.state.orders.reverse().map(order =>
             <li key={order.OrderID}>#{order.OrderID}: {order.Quantity}@{order.Price} of {order.InstrID}</li>
           )}
         </ul>
@@ -84,9 +125,6 @@ class App extends React.Component {
     );
   }
 
-  handleClick() {
-    console.log("Click")
-  }
 }
 
 ReactDOM.render(<App />, document.getElementById("app"));
