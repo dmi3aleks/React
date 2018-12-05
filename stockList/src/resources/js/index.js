@@ -1,9 +1,7 @@
-class Instrument {
-  constructor(name, currentPrice) {
-    this.name = name
-    this.currentPrice = currentPrice
-  }
-  getPrice = () => { return this.currentPrice }
+function Instrument(props) {
+  return (
+    <option value={props.instr_code}>{props.instr_code}</option>
+  )
 }
 
 function Trade(props) {
@@ -26,7 +24,6 @@ function Order(props) {
   );
 };
 
-
 class TextInput extends React.Component {
 
     constructor(props) {
@@ -41,7 +38,7 @@ class TextInput extends React.Component {
 
         return (
             <div>
-              <label for="in">{this.props.input_name}: </label>
+              <label id="lab" for="in">{this.props.input_name}: </label>
               <br />
               <input id="in" style={{display:'inline'}} value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
             </div>
@@ -49,13 +46,65 @@ class TextInput extends React.Component {
     }
 
     updateInputValue(evt) {
-        this.setState({
-            inputValue: evt.target.value
-        });
+      this.setState({
+          inputValue: evt.target.value
+      });
     }
 
     submitInputValue(evt) {
-        this.props.onInputUpdate(this.props.tag, evt.target.value);
+      this.props.onInputUpdate(this.props.tag, evt.target.value);
+    }
+}
+
+class InstrumentSelector extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            instruments: []
+        }
+    }
+
+    componentDidMount() {
+      this.getInstruments()
+    }
+
+    getInstruments() {
+      axios.get(`http://localhost:8080/instruments`)
+        .then(res => {
+          console.log(res.data);
+          console.log(res.data.length);
+          const inst_list = res.data;
+          this.setState({ instruments: inst_list });
+          // initialize the instrument with the first instrument available
+          this.props.onInputUpdate(this.props.tag, this.state.instruments[0].InstrCode);
+        });
+    }
+
+    render() {
+
+        return (
+            <div>
+              <label id="lab" for="sel">Instrument: </label>
+              <br />
+              <select id="sel" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}>
+                {this.state.instruments.map(instr =>
+                  <Instrument instr_code={instr.InstrCode} />
+                )}
+
+              </select>
+            </div>
+        )
+    }
+
+    updateInputValue(evt) {
+      this.setState({
+          inputValue: evt.target.value
+      });
+    }
+
+    submitInputValue(evt) {
+      this.props.onInputUpdate(this.props.tag, evt.target.value);
     }
 }
 
@@ -116,9 +165,9 @@ class App extends React.Component {
     return (
       <div>
         <div>
-          <h1>Order entry</h1>
-          <TextInput
-             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Instrument" tag="instcode"/>
+          <h1 id="title">Order entry</h1>
+          <InstrumentSelector
+             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="instcode"/>
           <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Quantity" tag="quantity"/>
           <TextInput
@@ -127,7 +176,7 @@ class App extends React.Component {
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Notes" tag="notes"/>
           <button className="button" id="btn" onClick={this.handleClick}>Send order</button>
         </div>
-        <h1>Orders</h1>
+        <h1 id="title">Orders</h1>
         <ul>
         <table id="orders">
           <tr>
