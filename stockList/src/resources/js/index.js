@@ -16,9 +16,14 @@ function Trade(props) {
 function Order(props) {
   return (
 	<tr>
+	  <td>{props.orderid}</td>
+	  <td>{props.timestamp}</td>
 	  <td>{props.instrument}</td>
+	  <td>{props.side}</td>
 	  <td>{props.quantity}</td>
 	  <td>{props.price}</td>
+	  <td>{props.quantity_filled}</td>
+	  <td>{props.status}</td>
 	  <td>{props.notes}</td>
     </tr>
   );
@@ -154,6 +159,7 @@ class App extends React.Component {
       "quantity": this.state.ord_props.quantity,
       "price": this.state.ord_props.price,
       "notes": this.state.ord_props.notes,
+      "side": this.state.ord_props.side,
 	})
 	.then(
 		(response) => { console.log(response); this.getOrders() },
@@ -169,6 +175,8 @@ class App extends React.Component {
           <InstrumentSelector
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="instcode"/>
           <TextInput
+             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Side" tag="side"/>
+          <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Quantity" tag="quantity"/>
           <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Price" tag="price"/>
@@ -180,13 +188,18 @@ class App extends React.Component {
         <ul>
         <table id="orders">
           <tr>
+            <th>Order ID</th>
+            <th>Timestamp</th>
             <th>Instrument</th>
+            <th>Side</th>
             <th>Quantity</th>
             <th>Price</th>
+            <th>Filled Quantity</th>
+            <th>Status</th>
             <th>Notes</th>
           </tr>
           {this.state.orders.map(order =>
-            <Order instrument={order.InstrCode} quantity={order.Quantity} price={order.Price} notes={order.Notes} />
+            <Order orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} status={order.Status} notes={order.Notes}  />
           )}
         </table>
         </ul>
