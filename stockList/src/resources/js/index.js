@@ -13,21 +13,35 @@ function Trade(props) {
   );
 };
 
-function Order(props) {
-  return (
-	<tr>
-	  <td>{props.orderid}</td>
-	  <td>{props.timestamp}</td>
-	  <td>{props.instrument}</td>
-	  <td>{props.side}</td>
-	  <td>{props.quantity}</td>
-	  <td>{props.price}</td>
-	  <td>{props.quantity_filled}</td>
-	  <td>{props.status}</td>
-	  <td>{props.notes}</td>
-    </tr>
-  );
-};
+class Order extends React.Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+      return (
+        <tr>
+          <td>{this.props.orderid}</td>
+          <td>{this.props.timestamp}</td>
+          <td>{this.props.instrument}</td>
+          <td>{this.props.side}</td>
+          <td>{this.props.quantity}</td>
+          <td>{this.props.price}</td>
+          <td>{this.props.quantity_filled}</td>
+          <td>{this.props.status}</td>
+          <td>{this.props.notes}</td>
+          <td onClick={() => this.cancelOrder(this.props.orderid)}><a href="#">Cancel</a></td>
+        </tr>
+      );
+    }
+
+    cancelOrder(orderID) {
+      axios.post('http://localhost:8080/order/delete', {
+        "orderID": this.props.orderid
+	    }).then(res => this.props.updateView());
+    }
+}
 
 class TextInput extends React.Component {
 
@@ -197,9 +211,10 @@ class App extends React.Component {
             <th>Filled Quantity</th>
             <th>Status</th>
             <th>Notes</th>
+            <th>Action</th>
           </tr>
           {this.state.orders.map(order =>
-            <Order orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} status={order.Status} notes={order.Notes}  />
+            <Order orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} status={order.Status} notes={order.Notes} updateView={() => this.getOrders()} />
           )}
         </table>
         </ul>
