@@ -1,3 +1,5 @@
+const serverHostName = 'https://localhost:8080'
+
 function Instrument(props) {
   return (
     <option value={props.instr_code}>{props.instr_code}</option>
@@ -37,7 +39,7 @@ class Order extends React.Component {
     }
 
     cancelOrder(orderID) {
-      axios.post('http://localhost:8080/order/delete', {
+      axios.post(serverHostName + '/order/delete', {
         "orderID": this.props.orderid
 	    }).then(res => this.props.updateView());
     }
@@ -89,7 +91,7 @@ class InstrumentSelector extends React.Component {
     }
 
     getInstruments() {
-      axios.get(`http://localhost:8080/instruments`)
+      axios.get(serverHostName + `/instruments`)
         .then(res => {
           console.log(res.data);
           console.log(res.data.length);
@@ -157,7 +159,7 @@ class App extends React.Component {
   }
 
   getOrders() {
-    axios.get(`http://localhost:8080/order`)
+    axios.get(serverHostName + `/order`)
       .then(res => {
         console.log(res.data);
         console.log(res.data.length);
@@ -168,7 +170,7 @@ class App extends React.Component {
 
   handleClick() {
     console.log('Price: ' + this.state.ord_props.price)
-    axios.post('http://localhost:8080/order/add', {
+    axios.post(serverHostName + '/order/add', {
       "instCode": this.state.ord_props.instcode,
       "quantity": this.state.ord_props.quantity,
       "price": this.state.ord_props.price,
