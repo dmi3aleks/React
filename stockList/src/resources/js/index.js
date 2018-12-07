@@ -1,4 +1,6 @@
-const serverHostName = 'https://localhost:8080'
+const serverHostName = 'http://localhost:8080'
+
+document.title = "Trading Dashboard";
 
 function Instrument(props) {
   return (
@@ -31,9 +33,9 @@ class Order extends React.Component {
           <td>{this.props.quantity}</td>
           <td>{this.props.price}</td>
           <td>{this.props.quantity_filled}</td>
-          <td>{this.props.status}</td>
-          <td>{this.props.notes}</td>
-          <td onClick={() => this.cancelOrder(this.props.orderid)}><a href="#">Cancel</a></td>
+          <td id="order_status">{this.props.status}</td>
+          <td id="order_notes">{this.props.notes}</td>
+          <td id="order_cancel" onClick={() => this.cancelOrder(this.props.orderid)}><a href="#">Cancel</a></td>
         </tr>
       );
     }
@@ -61,7 +63,7 @@ class TextInput extends React.Component {
             <div>
               <label id="lab" for="in">{this.props.input_name}: </label>
               <br />
-              <input id="in" style={{display:'inline'}} value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
+              <input id={this.props.tag} className="input_order" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
             </div>
         )
     }
@@ -198,7 +200,7 @@ class App extends React.Component {
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Price" tag="price"/>
           <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Notes" tag="notes"/>
-          <button className="button" id="btn" onClick={this.handleClick}>Send order</button>
+          <button className="button" id="btn_send_order" onClick={this.handleClick}>Send order</button>
         </div>
         <h1 id="title">Orders</h1>
         <ul>

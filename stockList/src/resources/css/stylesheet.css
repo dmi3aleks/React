@@ -6,6 +6,16 @@
   box-shadow: 0;
 }
 
+.input_order {
+    padding: 8px 10px;
+    margin: 1px 0;
+    box-sizing: border-box;
+    width: 180px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: darkgreen;
+}
+
 .trade {  
   border: 1px solid #eee;
   width: 280px;
