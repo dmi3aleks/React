@@ -24,6 +24,10 @@
   box-shadow: 0;
 }
 
+.floatLeft { width: 50%; float: left; }
+.floatRight {width: 50%; float: right; }
+.mainBlock { overflow: hidden; }
+
 .button {
     background-color: #4CAF50; /* Green */
     border: none;
