@@ -236,9 +236,9 @@ class App extends React.Component {
               <tr>
                 <th>Order ID</th>
                 <th>Timestamp</th>
-                <th>Instrument</th>
+                <th>Inst</th>
                 <th>Side</th>
-                <th>Quantity</th>
+                <th>Qty</th>
                 <th>Price</th>
                 <th>Filled Quantity</th>
                 <th>Fill Price</th>
@@ -258,7 +258,7 @@ class App extends React.Component {
                 <th>Trade ID</th>
                 <th>Timestamp</th>
                 <th>Order ID</th>
-                <th>Quantity</th>
+                <th>Qty</th>
                 <th>Price</th>
               </tr>
               {this.state.trades.map(trade =>
