@@ -27,6 +27,16 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+### `serve build`
+
+Allows serving an optimized build via HTTP.
+
+Alternative is to use a Python web server, E.g.:
+```
+cd build
+python -m SimpleHTTPServer 8000
+```
+
 ### `npm run eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**

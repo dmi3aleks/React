@@ -30,3 +30,45 @@
     transform: rotate(360deg);
   }
 }
+
+.order {
+  border: 1px solid #eee;
+  width: 280px;
+  padding: 20px;
+  display: inline-block;
+  box-shadow: 0;
+}
+
+.input_order {
+    padding: 8px 10px;
+    margin: 1px 0;
+    box-sizing: border-box;
+    width: 180px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: darkgreen;
+}
+
+.trade {
+  border: 1px solid #eee;
+  width: 280px;
+  padding: 20px;
+  display: inline-block;
+  box-shadow: 0;
+}
+
+.floatLeft { width: 50%; float: left; }
+.floatRight {width: 50%; float: right; }
+.mainBlock { overflow: hidden; }
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    width: 180px;
+}
