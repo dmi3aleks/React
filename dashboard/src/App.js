@@ -1,150 +1,15 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
+import Order from './components/Order'
+import Trade from './components/Trade'
+import TextInput from './components/TextInput'
+import InstrumentSelector from './components/InstrumentSelector'
+import ServerManager from './components/ServerManager'
 
-const serverHostName = 'http://localhost:8080'
+const serverHostName = new ServerManager ().getServerHostname();
 
 document.title = "Trading Dashboard";
-
-function Instrument(props) {
-  return (
-    <option value={props.instr_code}>{props.instr_code}</option>
-  )
-}
-
-class Order extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-      return (
-        <tr>
-          <td>{this.props.orderid}</td>
-          <td>{this.props.timestamp}</td>
-          <td>{this.props.instrument}</td>
-          <td>{this.props.side}</td>
-          <td>{this.props.quantity}</td>
-          <td>{this.props.price}</td>
-          <td>{this.props.quantity_filled}</td>
-          <td>{this.props.fill_price}</td>
-          <td id="order_status">{this.props.status}</td>
-          <td id="order_notes">{this.props.notes}</td>
-          <td id="order_cancel" onClick={() => this.cancelOrder(this.props.orderid)}><a href="#">Cancel</a></td>
-        </tr>
-      );
-    }
-
-    cancelOrder(orderID) {
-      axios.post(serverHostName + '/order/delete', {
-        "orderID": this.props.orderid
-	    }).then(res => this.props.updateView());
-    }
-}
-
-class Trade extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-      return (
-        <tr>
-          <td>{this.props.tradeid}</td>
-          <td>{this.props.timestamp}</td>
-          <td>{this.props.orderid}</td>
-          <td>{this.props.quantity}</td>
-          <td>{this.props.price}</td>
-        </tr>
-      );
-    }
-}
-
-class TextInput extends React.Component {
-
-    constructor(props) {
-        super(props);
-        console.log(props)
-        this.state = {
-            inputValue: ''
-        }
-    }
-
-    render() {
-
-        return (
-            <div>
-              <label id="lab" for="in">{this.props.input_name}: </label>
-              <br />
-              <input id={this.props.tag} className="input_order" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
-            </div>
-        )
-    }
-
-    updateInputValue(evt) {
-      this.setState({
-          inputValue: evt.target.value
-      });
-    }
-
-    submitInputValue(evt) {
-      this.props.onInputUpdate(this.props.tag, evt.target.value);
-    }
-}
-
-class InstrumentSelector extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            instruments: []
-        }
-    }
-
-    componentDidMount() {
-      this.getInstruments()
-    }
-
-    getInstruments() {
-      axios.get(serverHostName + `/instruments`)
-        .then(res => {
-          console.log(res.data);
-          console.log(res.data.length);
-          const inst_list = res.data;
-          this.setState({ instruments: inst_list });
-          // initialize the instrument with the first instrument available
-          this.props.onInputUpdate(this.props.tag, this.state.instruments[0].InstrCode);
-        });
-    }
-
-    render() {
-
-        return (
-            <div>
-              <label id="lab" for="sel">Instrument: </label>
-              <br />
-              <select id="sel" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}>
-                {this.state.instruments.map(instr =>
-                  <Instrument instr_code={instr.InstrCode} />
-                )}
-
-              </select>
-            </div>
-        )
-    }
-
-    updateInputValue(evt) {
-      this.setState({
-          inputValue: evt.target.value
-      });
-    }
-
-    submitInputValue(evt) {
-      this.props.onInputUpdate(this.props.tag, evt.target.value);
-    }
-}
 
 class App extends React.Component {
 
