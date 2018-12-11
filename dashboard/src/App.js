@@ -112,7 +112,7 @@ class App extends React.Component {
                 <th>Action</th>
               </tr>
               {this.state.orders.map(order =>
-                <Order orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} fill_price={order.FillPrice} status={order.Status} notes={order.Notes} updateView={() => this.refreshData()} />
+                <Order orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} fill_price={order.FillPrice} status={order.Status} notes={order.Notes} updateView={this.refreshData.bind(this)} />
               )}
             </table>
             </div>

@@ -23,7 +23,7 @@ class Order extends React.Component {
           <td>{this.props.fill_price}</td>
           <td id="order_status">{this.props.status}</td>
           <td id="order_notes">{this.props.notes}</td>
-          <td id="order_cancel" onClick={() => this.cancelOrder(this.props.orderid)}><a href="#">Cancel</a></td>
+          <td id="order_cancel" onClick={this.cancelOrder.bind(this, this.props.orderid)}><a href="#">Cancel</a></td>
         </tr>
       );
     }
