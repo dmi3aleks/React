@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Instrument from './Instrument'
 import ServerManager from './ServerManager'
+import './InstrumentSelector.css'
 
 const serverHostName = new ServerManager ().getServerHostname();
 
@@ -34,9 +35,9 @@ class InstrumentSelector extends React.Component {
 
         return (
             <div>
-              <label id="lab" for="sel">Instrument: </label>
+              <label className="Label" id="lab" for="sel">Instrument: </label>
               <br />
-              <select id="sel" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}>
+              <select className="Select" id="sel" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}>
                 {this.state.instruments.map(instr =>
                   <Instrument instr_code={instr.InstrCode} />
                 )}

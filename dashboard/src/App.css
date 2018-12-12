@@ -1,67 +1,16 @@
-.App {
-  text-align: center;
+.MainBlock {
+    overflow: hidden;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.FloatLeft {
+    width: 50%; float: left;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.FloatRight {
+    width: 50%; float: right;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.order {
-  border: 1px solid #eee;
-  width: 280px;
-  padding: 20px;
-  display: inline-block;
-  box-shadow: 0;
-}
-
-.input_order {
-    padding: 8px 10px;
-    margin: 1px 0;
-    box-sizing: border-box;
-    width: 180px;
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: darkgreen;
-}
-
-.trade {
-  border: 1px solid #eee;
-  width: 280px;
-  padding: 20px;
-  display: inline-block;
-  box-shadow: 0;
-}
-
-.floatLeft { width: 50%; float: left; }
-.floatRight {width: 50%; float: right; }
-.mainBlock { overflow: hidden; }
-
-.button {
+.Button {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
@@ -71,4 +20,46 @@
     display: inline-block;
     font-size: 16px;
     width: 180px;
+}
+
+.Title {
+	color: dimgray;
+	font-weight: bold;
+	display: block;
+	width: 250px;
+}
+
+.Label {
+    color: dimgray;
+    font-weight: bold;
+    display: block;
+    width: 150px;
+    float: left;
+}
+
+.DataTable {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 42%;
+}
+
+table.DataTable td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+table.DataTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+table.DataTable tr:hover {
+    background-color: #ddd;
+}
+
+table.DataTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
 }

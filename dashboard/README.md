@@ -17,6 +17,10 @@ It is therefore typical to have only one call to ReactDOM.render().
 
 Whilst "props" allow you to pass data down the component tree (and hence trigger an UI update), "state" is used to change the component state from within. Changes to state also trigger an UI update.
 
+#### setState() method
+
+setState() takes an argument passed to it and merges it with the existing state.
+
 ## Notes on New Generation JavaScript
 
 ### Spread syntax (...)

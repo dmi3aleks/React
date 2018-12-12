@@ -1,0 +1,9 @@
+.Select {
+    color: darkgreen;
+    padding: 8px 10px;
+    margin: 1px 0;
+    box-sizing: border-box;
+    width: 180px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}

@@ -80,7 +80,7 @@ class App extends React.Component {
     return (
       <div>
         <div>
-          <h1 id="title">Order entry</h1>
+          <h1 className="Title" id="title">Order entry</h1>
           <InstrumentSelector
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="instcode"/>
           <TextInput
@@ -91,13 +91,13 @@ class App extends React.Component {
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Price" tag="price"/>
           <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Notes" tag="notes"/>
-          <button className="button" id="btn_send_order" onClick={this.handleClick}>Send order</button>
+          <button className="Button" id="btn_send_order" onClick={this.handleClick}>Send order</button>
         </div>
         <ul>
-        <div className="mainBlock">
-            <div className="floatLeft">
-            <h1 id="title">Orders</h1>
-            <table id="orders">
+        <div className="MainBlock">
+            <div className="FloatLeft">
+            <h1 className= "Title" id="title">Orders</h1>
+            <table className="DataTable" id="orders">
               <tr>
                 <th>Order ID</th>
                 <th>Timestamp</th>
@@ -116,9 +116,9 @@ class App extends React.Component {
               )}
             </table>
             </div>
-            <div className="floatRight">
-            <h1 id="title">Trades</h1>
-            <table id="orders">
+            <div className="FloatRight">
+            <h1 className="Title" id="title">Trades</h1>
+            <table className="DataTable" id="trades">
               <tr>
                 <th>Trade ID</th>
                 <th>Timestamp</th>
