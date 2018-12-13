@@ -6,6 +6,7 @@ import Trade from './components/Trade'
 import TextInput from './components/TextInput'
 import InstrumentSelector from './components/InstrumentSelector'
 import ServerManager from './components/ServerManager'
+import PriceChart from './components/PriceChart'
 
 const serverHostName = new ServerManager ().getServerHostname();
 
@@ -77,8 +78,15 @@ class App extends React.Component {
   }
 
   render() {
+
+    var tradesDirect = this.state.trades.map(a => ({...a}));
+    tradesDirect.reverse();
+    const tradePrices = tradesDirect.map(trade => { return {"timestamp": trade.Timestamp, "price": trade.Price}});
+
     return (
       <div>
+        <div className="MainBlock">
+        <div className="FloatLeft">
         <div>
           <h1 className="Title" id="title">Order entry</h1>
           <InstrumentSelector
@@ -92,6 +100,11 @@ class App extends React.Component {
           <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Notes" tag="notes"/>
           <button className="Button" id="btn_send_order" onClick={this.handleClick}>Send order</button>
+        </div>
+	    </div>
+        <div className="FloatRight">
+        <PriceChart data={tradePrices}/>
+        </div>
         </div>
         <ul>
         <div className="MainBlock">

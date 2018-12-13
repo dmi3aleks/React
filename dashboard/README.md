@@ -114,6 +114,65 @@ create-react-app dashboard
 npm start
 ```
 
+## Notes on Recharts
+
+### Installation
+
+npm install recharts
+
+### Includes
+
+```javascript
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+```
+
+### Sample Custom Component
+
+```javascript
+import React, { Component } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
+class PriceChart extends Component {
+
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+    <div>
+      <LineChart width={800} height={500} data={this.props.data}
+        margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+        <XAxis dataKey="timestamp"/>
+        <YAxis domain={['dataMin', 'dataMax']}/>
+        <CartesianGrid strokeDasharray="3 3"/>
+        <Tooltip/>
+        <Legend />
+        <Line type="monotone" dataKey="price" stroke="#8884d8" activeDot={{r: 3}}/>
+      </LineChart>
+    </div>
+    )
+  }
+
+}
+
+export default PriceChart;
+```
+
+### Sample Usage
+
+```javascript
+const tradePrices = [
+  {timestamp: "2018-12-12 09:00:00.000000", price: 1},
+  {timestamp: "2018-12-12 09:00:01.000000", price: 2},
+  {timestamp: "2018-12-12 09:00:02.000000", price: 3},
+  {timestamp: "2018-12-12 09:00:03.000000", price: 2},
+  {timestamp: "2018-12-12 09:00:04.000000", price: 1},
+];
+
+<PriceChart data={tradePrices}/>
+```
+
 ## Notes
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
