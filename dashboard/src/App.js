@@ -23,23 +23,26 @@ class App extends React.Component {
   state = {
     orders: [],
     trades: [],
+    tradePrices: [],
     ord_props: {}
   }
 
   onNewOrderUpdate(key, value) {
     var ord_p = this.state.ord_props
     ord_p[key] = value
-    console.log("onNewOrderUpdate: " + key + ":" + value);
-	this.setState({ ord_props: ord_p })
+    this.setState({ ord_props: ord_p })
+    this.getTradesByInstrument(this.state.ord_props.instcode)
   }
 
   componentDidMount() {
     this.refreshData();
   }
 
+
   refreshData() {
     this.getOrders()
     this.getTrades()
+    this.getTradesByInstrument(this.state.ord_props.instcode)
   }
 
   getOrders() {
@@ -62,8 +65,17 @@ class App extends React.Component {
       });
   }
 
+  getTradesByInstrument(instrCode) {
+    axios.get(serverHostName + `/trade/byInstr?instCode=` + instrCode)
+      .then(res => {
+        console.log(res.data);
+        console.log(res.data.length);
+        const trade_list = res.data;
+        this.setState({ tradePrices: trade_list });
+      });
+  }
+
   handleClick() {
-    console.log('Price: ' + this.state.ord_props.price)
     axios.post(serverHostName + '/order/add', {
       "instCode": this.state.ord_props.instcode,
       "quantity": this.state.ord_props.quantity,
@@ -79,9 +91,10 @@ class App extends React.Component {
 
   render() {
 
-    var tradesDirect = this.state.trades.map(a => ({...a}));
-    tradesDirect.reverse();
-    const tradePrices = tradesDirect.map(trade => { return {"timestamp": trade.Timestamp, "price": trade.Price}});
+    var selectedTrades = []
+    if (this.state.tradePrices.length > 0) {
+      selectedTrades = this.state.tradePrices.map(trade => { return {"timestamp": trade.Timestamp, "price": trade.Price}});
+    }
 
     return (
       <div>
@@ -103,7 +116,8 @@ class App extends React.Component {
         </div>
 	    </div>
         <div className="FloatRight">
-        <PriceChart data={tradePrices}/>
+          <h1 className= "Title" id="title">Trade prices</h1>
+          <PriceChart data={selectedTrades}/>
         </div>
         </div>
         <ul>

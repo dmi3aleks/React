@@ -37,7 +37,7 @@ class InstrumentSelector extends React.Component {
             <div>
               <label className="Label" id="lab" for="sel">Instrument: </label>
               <br />
-              <select className="Select" id="sel" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}>
+              <select className="Select" id="sel" value={this.state.inputValue} onChange={evt => this.submitInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}>
                 {this.state.instruments.map(instr =>
                   <Instrument instr_code={instr.InstrCode} />
                 )}
@@ -47,13 +47,10 @@ class InstrumentSelector extends React.Component {
         )
     }
 
-    updateInputValue(evt) {
+    submitInputValue(evt) {
       this.setState({
           inputValue: evt.target.value
       });
-    }
-
-    submitInputValue(evt) {
       this.props.onInputUpdate(this.props.tag, evt.target.value);
     }
 }
