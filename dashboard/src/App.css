@@ -3,7 +3,11 @@
 }
 
 .FloatLeft {
-    width: 45%; float: left;
+    width: 50%; float: left;
+}
+
+.OrderEntry {
+    padding-left: 42px;
 }
 
 .Button {

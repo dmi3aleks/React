@@ -107,7 +107,7 @@ class App extends React.Component {
       <div>
         <div className="MainBlock">
         <div className="FloatLeft">
-        <div>
+        <div className="OrderEntry">
           <h1 className="Title" id="title">Order entry</h1>
           <InstrumentSelector
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="instcode"/>
@@ -124,7 +124,7 @@ class App extends React.Component {
 	    </div>
         <div className="FloatLeft">
           <h1 className= "Title" id="title">Trade prices</h1>
-          <PriceChart data={selectedTrades}/>
+          <PriceChart instrumentCode={this.state.ord_props.instcode} data={selectedTrades}/>
         </div>
         </div>
         <ul>
