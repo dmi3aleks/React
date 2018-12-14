@@ -17,7 +17,7 @@ class PriceChart extends Component {
         <CartesianGrid strokeDasharray="3 3"/>
         <Tooltip/>
         <Legend />
-        <Line type="monotone" dataKey="price" stroke="#8884d8" activeDot={{r: 1}}/>
+        <Line dataKey="price" stroke="#8884d8" activeDot={{r: 1}}/>
       </LineChart>
     </div>
     )

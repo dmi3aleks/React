@@ -51,7 +51,9 @@ class App extends React.Component {
         console.log(res.data);
         console.log(res.data.length);
         const order_list = res.data;
-        this.setState({ orders: order_list.reverse() });
+        if (typeof(order_list) != 'string') {
+          this.setState({ orders: order_list.reverse() });
+        }
       });
   }
 
@@ -61,7 +63,12 @@ class App extends React.Component {
         console.log(res.data);
         console.log(res.data.length);
         const trade_list = res.data;
-        this.setState({ trades: trade_list.reverse() });
+        console.log(trade_list);
+        console.log(trade_list.length);
+        console.log(typeof(trade_list));
+        if (typeof(trade_list) != 'string') {
+          this.setState({ trades: trade_list.reverse() });
+        }
       });
   }
 
@@ -115,7 +122,7 @@ class App extends React.Component {
           <button className="Button" id="btn_send_order" onClick={this.handleClick}>Send order</button>
         </div>
 	    </div>
-        <div className="FloatRight">
+        <div className="FloatLeft">
           <h1 className= "Title" id="title">Trade prices</h1>
           <PriceChart data={selectedTrades}/>
         </div>
@@ -143,18 +150,19 @@ class App extends React.Component {
               )}
             </table>
             </div>
-            <div className="FloatRight">
+            <div className="FloatLeft">
             <h1 className="Title" id="title">Trades</h1>
             <table className="DataTable" id="trades">
               <tr>
                 <th>Trade ID</th>
                 <th>Timestamp</th>
-                <th>Order ID</th>
+                <th>Resting order ID</th>
+                <th>Incoming order ID</th>
                 <th>Qty</th>
                 <th>Price</th>
               </tr>
               {this.state.trades.map(trade =>
-                <Trade tradeid={trade.TradeID} timestamp={trade.Timestamp} orderid={trade.OrderID} quantity={trade.Quantity} price={trade.Price} />
+                <Trade tradeid={trade.TradeID} timestamp={trade.Timestamp} restingorderid={trade.RestingOrderID} incomingorderid={trade.IncomingOrderID} quantity={trade.Quantity} price={trade.Price} />
               )}
             </table>
             </div>
