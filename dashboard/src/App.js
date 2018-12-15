@@ -5,6 +5,7 @@ import Order from './components/Order'
 import Trade from './components/Trade'
 import TextInput from './components/TextInput'
 import InstrumentSelector from './components/InstrumentSelector'
+import SideSelector from './components/SideSelector'
 import ServerManager from './components/ServerManager'
 import PriceChart from './components/PriceChart'
 
@@ -28,10 +29,13 @@ class App extends React.Component {
   }
 
   onNewOrderUpdate(key, value) {
+    console.log('onNewOrderUpdate: key: ' + key + ' , value: ' + value)
     var ord_p = this.state.ord_props
     ord_p[key] = value
     this.setState({ ord_props: ord_p })
-    this.getTradesByInstrument(this.state.ord_props.instcode)
+    if (key === 'instcode') {
+      this.getTradesByInstrument(this.state.ord_props.instcode)
+    }
   }
 
   componentDidMount() {
@@ -111,6 +115,8 @@ class App extends React.Component {
           <h1 className="Title" id="title">Order entry</h1>
           <InstrumentSelector
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="instcode"/>
+          <SideSelector
+             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="side"/>
           <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Side" tag="side"/>
           <TextInput

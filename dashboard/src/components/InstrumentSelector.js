@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Instrument from './Instrument'
 import ServerManager from './ServerManager'
-import './InstrumentSelector.css'
+import './Selector.css'
 
 const serverHostName = new ServerManager ().getServerHostname();
 
