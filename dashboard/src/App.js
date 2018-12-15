@@ -42,7 +42,6 @@ class App extends React.Component {
     this.refreshData();
   }
 
-
   refreshData() {
     this.getOrders()
     this.getTrades()
@@ -88,11 +87,11 @@ class App extends React.Component {
 
   handleClick() {
     axios.post(serverHostName + '/order/add', {
-      "instCode": this.state.ord_props.instcode,
-      "quantity": this.state.ord_props.quantity,
-      "price": this.state.ord_props.price,
-      "notes": this.state.ord_props.notes,
-      "side": this.state.ord_props.side,
+      "InstrCode": this.state.ord_props.instcode,
+      "Quantity": this.state.ord_props.quantity,
+      "Price": this.state.ord_props.price,
+      "Notes": this.state.ord_props.notes,
+      "Side": this.state.ord_props.side,
 	})
 	.then(
 		(response) => { console.log(response); this.refreshData() },
@@ -117,8 +116,6 @@ class App extends React.Component {
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="instcode"/>
           <SideSelector
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="side"/>
-          <TextInput
-             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Side" tag="side"/>
           <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Quantity" tag="quantity"/>
           <TextInput
