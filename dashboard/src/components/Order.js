@@ -30,7 +30,7 @@ class Order extends React.Component {
 
     cancelOrder(orderID) {
       axios.post(serverHostName + '/order/delete', {
-        "orderID": this.props.orderid
+        "OrderID": this.props.orderid
 	    }).then(res => this.props.updateView());
     }
 }
