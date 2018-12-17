@@ -8,6 +8,7 @@ import InstrumentSelector from './components/InstrumentSelector'
 import SideSelector from './components/SideSelector'
 import ServerManager from './components/ServerManager'
 import PriceChart from './components/PriceChart'
+import Socket from './socket/Socket'
 
 const serverHostName = new ServerManager ().getServerHostname();
 
@@ -19,6 +20,18 @@ class App extends React.Component {
     super()
 
     this.handleClick = this.handleClick.bind(this)
+
+    const socket = Socket.getInstance();
+    socket.onopen = () => {
+      console.log("SOCKET: Socket has connected now")
+      const msg = JSON.stringify({type:"SUBSCRIBE", subject:"ORDERS"})
+      console.log("SOCKET: sending msg: " + msg)
+      socket.send(msg);
+    }
+    socket.onmessage = (msg) => {
+      console.log("SOCKET: New message from the server: " + msg.data)
+      this.refreshData()
+    }
   }
 
   state = {
