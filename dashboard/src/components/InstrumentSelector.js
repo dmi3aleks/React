@@ -6,7 +6,7 @@ import './Selector.css'
 
 const serverHostName = new ServerManager ().getServerHostname();
 
-class InstrumentSelector extends React.Component {
+class InstrumentSelector extends Component {
 
     constructor(props) {
         super(props);
@@ -22,8 +22,6 @@ class InstrumentSelector extends React.Component {
     getInstruments() {
       axios.get(serverHostName + `/instruments`)
         .then(res => {
-          console.log(res.data);
-          console.log(res.data.length);
           const inst_list = res.data;
           this.setState({ instruments: inst_list });
           // initialize the instrument with the first instrument available
@@ -35,11 +33,11 @@ class InstrumentSelector extends React.Component {
 
         return (
             <div>
-              <label className="Label" id="lab" for="sel">Instrument: </label>
+              <label className="Label" id="lab" htmlFor="sel">Instrument: </label>
               <br />
               <select className="Select" id="sel" value={this.state.inputValue} onChange={evt => this.submitInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}>
                 {this.state.instruments.map(instr =>
-                  <Instrument instr_code={instr.InstrCode} />
+                  <Instrument key={instr.InstrCode} instr_code={instr.InstrCode} />
                 )}
 
               </select>

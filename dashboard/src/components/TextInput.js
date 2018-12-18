@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './TextInput.css'
 
-class TextInput extends React.Component {
+class TextInput extends Component {
 
     constructor(props) {
         super(props);
-        console.log(props)
         this.state = {
             inputValue: ''
         }
@@ -15,7 +14,7 @@ class TextInput extends React.Component {
 
         return (
             <div>
-              <label className="Label" id="lab" for="in">{this.props.input_name}: </label>
+              <label className="Label" id="lab" htmlFor="in">{this.props.input_name}: </label>
               <br />
               <input id={this.props.tag} className="InputOrder" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
             </div>

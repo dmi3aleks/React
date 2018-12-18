@@ -3,10 +3,6 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 
 class PriceChart extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     return (
     <div>

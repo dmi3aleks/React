@@ -14,22 +14,23 @@ const serverHostName = new ServerManager ().getServerHostname();
 
 document.title = "Trading Dashboard";
 
-class App extends React.Component {
+class App extends Component {
 
   constructor() {
     super()
 
     this.handleClick = this.handleClick.bind(this)
+    this.subscribeForPushNotifications()
+  }
 
-    const socket = Socket.getInstance();
+  subscribeForPushNotifications() {
+    const socket = Socket.getInstance()
     socket.onopen = () => {
-      console.log("SOCKET: Socket has connected now")
       const msg = JSON.stringify({type:"SUBSCRIBE", subject:"ORDERS"})
-      console.log("SOCKET: sending msg: " + msg)
-      socket.send(msg);
+      socket.send(msg)
     }
     socket.onmessage = (msg) => {
-      console.log("SOCKET: New message from the server: " + msg.data)
+      console.log("SOCKET: " + msg.data)
       this.refreshData()
     }
   }
@@ -42,7 +43,6 @@ class App extends React.Component {
   }
 
   onNewOrderUpdate(key, value) {
-    console.log('onNewOrderUpdate: key: ' + key + ' , value: ' + value)
     var ord_p = this.state.ord_props
     ord_p[key] = value
     this.setState({ ord_props: ord_p })
@@ -62,10 +62,9 @@ class App extends React.Component {
   }
 
   getOrders() {
+	console.log("GET ORDERS");
     axios.get(serverHostName + `/order`)
       .then(res => {
-        console.log(res.data);
-        console.log(res.data.length);
         const order_list = res.data;
         if (typeof(order_list) != 'string') {
           this.setState({ orders: order_list.reverse() });
@@ -74,14 +73,10 @@ class App extends React.Component {
   }
 
   getTrades() {
+	console.log("GET TRADES");
     axios.get(serverHostName + `/trade`)
       .then(res => {
-        console.log(res.data);
-        console.log(res.data.length);
         const trade_list = res.data;
-        console.log(trade_list);
-        console.log(trade_list.length);
-        console.log(typeof(trade_list));
         if (typeof(trade_list) != 'string') {
           this.setState({ trades: trade_list.reverse() });
         }
@@ -89,10 +84,9 @@ class App extends React.Component {
   }
 
   getTradesByInstrument(instrCode) {
+	console.log("GET TRADES BY INSTRUMENT");
     axios.get(serverHostName + `/trade/byInstr?instCode=` + instrCode)
       .then(res => {
-        console.log(res.data);
-        console.log(res.data.length);
         const trade_list = res.data;
         this.setState({ tradePrices: trade_list });
       });
@@ -107,7 +101,7 @@ class App extends React.Component {
       "Side": this.state.ord_props.side,
 	})
 	.then(
-		(response) => { console.log(response); this.refreshData() },
+		(response) => { this.refreshData() },
 		(error) => { console.log(error) }
 	);
   }
@@ -148,37 +142,41 @@ class App extends React.Component {
             <div className="FloatLeft">
             <h1 className= "Title" id="title">Orders</h1>
             <table className="DataTable" id="orders">
-              <tr>
-                <th>Order ID</th>
-                <th>Timestamp</th>
-                <th>Inst</th>
-                <th>Side</th>
-                <th>Qty</th>
-                <th>Price</th>
-                <th>Filled Quantity</th>
-                <th>Fill Price</th>
-                <th>Status</th>
-                <th>Notes</th>
-                <th>Action</th>
-              </tr>
+              <tbody>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Timestamp</th>
+                  <th>Inst</th>
+                  <th>Side</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                  <th>Filled Quantity</th>
+                  <th>Fill Price</th>
+                  <th>Status</th>
+                  <th>Notes</th>
+                  <th>Action</th>
+                </tr>
+              </tbody>
               {this.state.orders.map(order =>
-                <Order orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} fill_price={order.FillPrice} status={order.Status} notes={order.Notes} updateView={this.refreshData.bind(this)} />
+                <Order key={order.OrderID} orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} fill_price={order.FillPrice} status={order.Status} notes={order.Notes} updateView={this.refreshData.bind(this)} />
               )}
             </table>
             </div>
             <div className="FloatLeft">
             <h1 className="Title" id="title">Trades</h1>
             <table className="DataTable" id="trades">
-              <tr>
-                <th>Trade ID</th>
-                <th>Timestamp</th>
-                <th>Resting order ID</th>
-                <th>Incoming order ID</th>
-                <th>Qty</th>
-                <th>Price</th>
-              </tr>
+              <tbody>
+                <tr>
+                  <th>Trade ID</th>
+                  <th>Timestamp</th>
+                  <th>Resting order ID</th>
+                  <th>Incoming order ID</th>
+                  <th>Qty</th>
+                  <th>Price</th>
+                </tr>
+              </tbody>
               {this.state.trades.map(trade =>
-                <Trade tradeid={trade.TradeID} timestamp={trade.Timestamp} restingorderid={trade.RestingOrderID} incomingorderid={trade.IncomingOrderID} quantity={trade.Quantity} price={trade.Price} />
+                <Trade key={trade.TradeID} tradeid={trade.TradeID} timestamp={trade.Timestamp} restingorderid={trade.RestingOrderID} incomingorderid={trade.IncomingOrderID} quantity={trade.Quantity} price={trade.Price} />
               )}
             </table>
             </div>
