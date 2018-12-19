@@ -18,6 +18,8 @@ class App extends Component {
 
   // WebSocket to get push notifications from the backend
   socket
+  orderDisplayLimit = 10
+  tradeDisplayLimit = 10
 
   constructor() {
     super()
@@ -67,22 +69,22 @@ class App extends Component {
 
   getOrders() {
 	console.log("GET ORDERS");
-    axios.get(serverHostName + `/order`)
+    axios.get(serverHostName + `/order?limit=` + this.orderDisplayLimit)
       .then(res => {
         const order_list = res.data;
         if (typeof(order_list) != 'string') {
-          this.setState({ orders: order_list.reverse() });
+          this.setState({ orders: order_list });
         }
       });
   }
 
   getTrades() {
 	console.log("GET TRADES");
-    axios.get(serverHostName + `/trade`)
+    axios.get(serverHostName + `/trade?limit=` + this.tradeDisplayLimit)
       .then(res => {
         const trade_list = res.data;
         if (typeof(trade_list) != 'string') {
-          this.setState({ trades: trade_list.reverse() });
+          this.setState({ trades: trade_list });
         }
       });
   }
