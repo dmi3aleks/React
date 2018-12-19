@@ -4,27 +4,49 @@ const Config = {
   PORT: ":7888"
 }
 
-const Socket = (function() {
+class Socket {
 
-  let instance;
+  socket
+  opened = false
+  callbacks = {}
+  subjectsPendingSubscription = []
 
-  function createInstance() {
+  constructor() {
     const address = Config.PROTOCOL + Config.HOST + Config.PORT
-    const socket = new WebSocket(address)
-    console.log("Created a Socket instance at: " + address)
-    return socket;
-  }
+    console.log("Created a WebSocket connecting to: " + address)
+    this.socket = new WebSocket(address)
 
-  return {
-    getInstance: function() {
-      if(!instance) {
-        instance = createInstance()
-      }
-      return instance
+    this.socket.onopen = () => {
+      this.opened = true
+      console.log("Socket has been opened")
+      // subscribing to all pending subjects
+      this.subjectsPendingSubscription.forEach(subject => this.startSubscription(subject))
+    }
+
+    this.socket.onmessage = (msg) => {
+      console.log("Incoming message on socket: " + msg.data)
+      let subject = msg.data.substring(msg.data.indexOf(":") + 1)
+      // trigger corresponding callback
+      this.callbacks[subject]()
     }
   }
 
+  startSubscription(subscriptionSubject) {
+      const msg = JSON.stringify({type:"SUBSCRIBE", subject:subscriptionSubject})
+      this.socket.send(msg)
+  }
 
-})();
+  subscribeForPushNotifications(subscriptionSubject, callback) {
+
+    if (this.opened) {
+      this.startSubscription(subscriptionSubject)
+    } else {
+      this.subjectsPendingSubscription.push(subscriptionSubject)
+    }
+
+    this.callbacks[subscriptionSubject] = callback
+  }
+
+}
 
 export default Socket;

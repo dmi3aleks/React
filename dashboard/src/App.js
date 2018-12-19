@@ -16,23 +16,27 @@ document.title = "Trading Dashboard";
 
 class App extends Component {
 
+  // WebSocket to get push notifications from the backend
+  socket
+
   constructor() {
     super()
 
     this.handleClick = this.handleClick.bind(this)
-    this.subscribeForPushNotifications()
+    this.socket = new Socket()
+    this.startSubscriptions()
   }
 
-  subscribeForPushNotifications() {
-    const socket = Socket.getInstance()
-    socket.onopen = () => {
-      const msg = JSON.stringify({type:"SUBSCRIBE", subject:"ORDERS"})
-      socket.send(msg)
-    }
-    socket.onmessage = (msg) => {
-      console.log("SOCKET: " + msg.data)
-      this.refreshData()
-    }
+  startSubscriptions() {
+
+    this.socket.subscribeForPushNotifications("ORDERS", () => {
+      this.getOrders()
+    })
+
+    this.socket.subscribeForPushNotifications("TRADE", () => {
+      this.getTrades()
+      this.getTradesByInstrument(this.state.ord_props.instcode);
+    })
   }
 
   state = {
