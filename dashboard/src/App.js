@@ -64,7 +64,6 @@ class App extends Component {
   refreshData() {
     this.getOrders()
     this.getTrades()
-    this.getTradesByInstrument(this.state.ord_props.instcode)
   }
 
   getOrders() {
@@ -90,13 +89,14 @@ class App extends Component {
   }
 
   getTradesByInstrument(instrCode) {
-	console.log("GET TRADES BY INSTRUMENT");
+	console.log("GET TRADES BY INSTRUMENT: " + instrCode);
     axios.get(serverHostName + `/trade/byInstr?instCode=` + instrCode)
       .then(res => {
         const trade_list = res.data;
         if (trade_list !== "") {
-          this.setState({ tradePrices: trade_list.reverse() });
+          trade_list.reverse()
         }
+        this.setState({ tradePrices: trade_list });
       });
   }
 
@@ -109,7 +109,7 @@ class App extends Component {
       "Side": this.state.ord_props.side,
 	})
 	.then(
-		(response) => { this.refreshData() },
+		(response) => {},
 		(error) => { console.log(error) }
 	);
   }
@@ -166,7 +166,7 @@ class App extends Component {
                 </tr>
               </tbody>
               {this.state.orders.map(order =>
-                <Order key={order.OrderID} orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} fill_price={order.FillPrice} status={order.Status} notes={order.Notes} updateView={this.refreshData.bind(this)} />
+                <Order key={order.OrderID} orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} fill_price={order.FillPrice} status={order.Status} notes={order.Notes} />
               )}
             </table>
             </div>

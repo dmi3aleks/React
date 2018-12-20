@@ -57,7 +57,7 @@ class Order extends Component {
     cancelOrder(orderID) {
       axios.post(serverHostName + '/order/delete', {
         "OrderID": this.props.orderid
-	    }).then(res => this.props.updateView());
+	    });
     }
 }
 
