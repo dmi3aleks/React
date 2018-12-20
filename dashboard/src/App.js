@@ -94,7 +94,9 @@ class App extends Component {
     axios.get(serverHostName + `/trade/byInstr?instCode=` + instrCode)
       .then(res => {
         const trade_list = res.data;
-        this.setState({ tradePrices: trade_list });
+        if (trade_list !== "") {
+          this.setState({ tradePrices: trade_list.reverse() });
+        }
       });
   }
 
