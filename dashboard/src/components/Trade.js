@@ -2,10 +2,14 @@ import React, { Component } from 'react';
 
 class Trade extends Component {
 
+    state = {
+      highlighted: false,
+    }
+
     render() {
       return (
         <tbody>
-          <tr>
+          <tr style={{backgroundColor: this.state.highlighted? 'orange':'white'}}>
             <td>{this.props.tradeid}</td>
             <td>{this.props.timestamp}</td>
             <td>{this.props.restingorderid}</td>
@@ -15,6 +19,17 @@ class Trade extends Component {
           </tr>
         </tbody>
       );
+    }
+
+    componentDidMount() {
+      this.setState({status: this.props.status})
+      this.setState({quantity_filled: this.props.quantity_filled})
+      this.flash()
+    }
+
+    flash() {
+      this.setState({highlighted:true})
+      setTimeout(() => {this.setState({highlighted:false})}, 500)
     }
 }
 

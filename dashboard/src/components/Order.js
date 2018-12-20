@@ -6,10 +6,16 @@ const serverHostName = new ServerManager ().getServerHostname();
 
 class Order extends Component {
 
+    state = {
+      highlighted: false,
+      status: "",
+      quantity_filled: 0
+    }
+
     render() {
       return (
         <tbody>
-          <tr>
+          <tr style={{backgroundColor: this.state.highlighted? 'orange':'white'}}>
             <td>{this.props.orderid}</td>
             <td>{this.props.timestamp}</td>
             <td>{this.props.instrument}</td>
@@ -24,6 +30,28 @@ class Order extends Component {
           </tr>
         </tbody>
       );
+    }
+
+    componentDidMount() {
+      this.setState({status: this.props.status})
+      this.setState({quantity_filled: this.props.quantity_filled})
+      this.flash()
+    }
+
+    componentDidUpdate() {
+      if (this.state.status !== this.props.status ||
+          this.state.quantity_filled !== this.props.quantity_filled) {
+
+        this.setState({status: this.props.status})
+        this.setState({quantity_filled: this.props.quantity_filled})
+
+        this.flash()
+      }
+    }
+
+    flash() {
+      this.setState({highlighted:true})
+      setTimeout(() => {this.setState({highlighted:false})}, 500)
     }
 
     cancelOrder(orderID) {
