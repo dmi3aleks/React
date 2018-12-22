@@ -6,8 +6,8 @@ class PriceChart extends Component {
   render() {
     return (
     <div>
-      <LineChart width={700} height={420} data={this.props.data}
-        margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+      <LineChart width={500} height={300} data={this.props.data}
+        margin={{top: 5, right: 30, left: 20, bottom: 0}}>
         <XAxis dataKey="timestamp"/>
         <YAxis label={{value:'yen', position: 'insideLeft'}} domain={['dataMin - 5', 'dataMax + 5']}/>
         <CartesianGrid strokeDasharray="3 3"/>

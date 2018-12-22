@@ -20,7 +20,7 @@ class SideSelector extends Component {
     render() {
 
         return (
-            <div>
+            <div className="HorizontalDiv">
               <label className="Label" id="lab" htmlFor="sel">Side: </label>
               <br />
               <select className="Select" id="sel" value={this.state.inputValue} onChange={evt => this.submitInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}>

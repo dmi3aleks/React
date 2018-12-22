@@ -1,7 +1,9 @@
 const Config = {
   PROTOCOL: "ws:",
-  HOST: "//localhost",
+  //HOST: "//localhost",
+  HOST: "//ec2-52-69-225-97.ap-northeast-1.compute.amazonaws.com",
   PORT: ":7888"
+
 }
 
 class Socket {
@@ -13,8 +15,8 @@ class Socket {
 
   constructor() {
     const address = Config.PROTOCOL + Config.HOST + Config.PORT
-    console.log("Created a WebSocket connecting to: " + address)
     this.socket = new WebSocket(address)
+    console.log("Creating a WebSocket connecting to: " + address)
 
     this.socket.onopen = () => {
       this.opened = true

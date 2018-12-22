@@ -188,6 +188,7 @@ class App extends Component {
               )}
             </table>
             </div>
+            <div className="Clear" />
         </div>
         </ul>
       </div>

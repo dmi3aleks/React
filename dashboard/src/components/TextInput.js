@@ -13,7 +13,7 @@ class TextInput extends Component {
     render() {
 
         return (
-            <div>
+            <div className="HorizontalDiv">
               <label className="Label" id="lab" htmlFor="in">{this.props.input_name}: </label>
               <br />
               <input id={this.props.tag} className="InputOrder" value={this.state.inputValue} onChange={evt => this.updateInputValue(evt)} onBlur={evt => this.submitInputValue(evt)}/>
