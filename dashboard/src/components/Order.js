@@ -25,7 +25,6 @@ class Order extends Component {
             <td>{this.props.quantity_filled}</td>
             <td>{this.props.fill_price}</td>
             <td style={{backgroundColor: this.getStatusColor() }} id="order_status">{this.props.status}</td>
-            <td id="order_notes">{this.props.notes}</td>
             <td id="order_cancel" onClick={this.cancelOrder.bind(this, this.props.orderid)}><button>Cancel</button></td>
           </tr>
         </tbody>

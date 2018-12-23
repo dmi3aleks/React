@@ -8,9 +8,11 @@
     "chromedriver": "^2.44.1",
     "geckodriver": "^1.14.1",
     "react": "^16.6.3",
+    "react-deploy-s3": "^2.1.2",
     "react-dom": "^16.6.3",
     "react-scripts": "2.1.1",
     "recharts": "^1.4.1",
+    "save": "^2.3.3",
     "selenium-webdriver": "^4.0.0-alpha.1"
   },
   "scripts": {
@@ -20,7 +22,7 @@
     "eject": "react-scripts eject",
     "s-test": "mocha test",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "aws s3 sync build/ s3://dashboard-alpha"
   },
   "eslintConfig": {
     "extends": "react-app"

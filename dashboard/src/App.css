@@ -8,6 +8,11 @@
     width: 50%;
 }
 
+.Chart {
+    display: inline-block;
+    width: 50%;
+}
+
 .Clear {
     clear: both;
 }
@@ -29,8 +34,13 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    width: 180px;
+    font-size: 30px;
+    width: 280px;
+    height: 80px;
+}
+
+.Button:active {
+    background-color: orange;
 }
 
 .Title {
@@ -44,14 +54,16 @@
     color: dimgray;
     font-weight: bold;
     display: block;
-    width: 150px;
+    width: 100px;
     float: left;
+    font-size: 24px;
 }
 
 .DataTable {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 50%;
+    white-space:nowrap;
 }
 
 table.DataTable tbody {

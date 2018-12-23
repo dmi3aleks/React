@@ -124,7 +124,6 @@ class App extends Component {
     return (
       <div>
         <div className="MainBlock">
-        <div className="FloatLeft">
         <div className="OrderEntry">
           <h1 className="Title" id="title">Order entry</h1>
           <InstrumentSelector
@@ -135,13 +134,9 @@ class App extends Component {
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Quantity" tag="quantity"/>
           <TextInput
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Price" tag="price"/>
-          <TextInput
-             onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} input_name="Notes" tag="notes"/>
           <button className="Button" id="btn_send_order" onClick={this.handleClick}>Send order</button>
         </div>
-	    </div>
-        <div className="FloatLeft">
-          <h1 className= "Title" id="title">Trade prices</h1>
+        <div className="Chart">
           <PriceChart instrumentCode={this.state.ord_props.instcode} data={selectedTrades}/>
         </div>
         </div>
@@ -161,16 +156,13 @@ class App extends Component {
                   <th>Filled Quantity</th>
                   <th>Fill Price</th>
                   <th>Status</th>
-                  <th>Notes</th>
                   <th>Action</th>
                 </tr>
               </tbody>
               {this.state.orders.map(order =>
-                <Order key={order.OrderID} orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} fill_price={order.FillPrice} status={order.Status} notes={order.Notes} />
+                <Order key={order.OrderID} orderid={order.OrderID} timestamp={order.Timestamp} instrument={order.InstrCode} side={order.Side} quantity={order.Quantity} price={order.Price} quantity_filled={order.QuantityFilled} fill_price={order.FillPrice} status={order.Status}/>
               )}
             </table>
-            </div>
-            <div className="FloatLeft">
             <h1 className="Title" id="title">Trades</h1>
             <table className="DataTable" id="trades">
               <tbody>
