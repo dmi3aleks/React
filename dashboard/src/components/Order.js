@@ -20,8 +20,8 @@ class Order extends Component {
             <td>{this.props.timestamp}</td>
             <td>{this.props.instrument}</td>
             <td>{this.props.side}</td>
-            <td>{this.props.quantity}</td>
-            <td>{this.props.price}</td>
+            <td id="order_quantity">{this.props.quantity}</td>
+            <td id="order_price">{this.props.price}</td>
             <td>{this.props.quantity_filled}</td>
             <td>{this.props.fill_price}</td>
             <td style={{backgroundColor: this.getStatusColor() }} id="order_status">{this.props.status}</td>

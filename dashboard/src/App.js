@@ -105,7 +105,7 @@ class App extends Component {
       "InstrCode": this.state.ord_props.instcode,
       "Quantity": this.state.ord_props.quantity,
       "Price": this.state.ord_props.price,
-      "Notes": this.state.ord_props.notes,
+      "Notes": "A",
       "Side": this.state.ord_props.side,
 	})
 	.then(
@@ -125,7 +125,7 @@ class App extends Component {
       <div>
         <div className="MainBlock">
         <div className="OrderEntry">
-          <h1 className="Title" id="title">Order entry</h1>
+          <h1 className="Title" id="title">Trading Dashboard</h1>
           <InstrumentSelector
              onInputUpdate={(key, value) => this.onNewOrderUpdate(key, value)} tag="instcode"/>
           <SideSelector

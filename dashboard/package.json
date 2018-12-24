@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "s-test": "mocha test",
     "predeploy": "npm run build",
-    "deploy": "aws s3 sync build/ s3://dashboard-alpha"
+    "deploy": "aws s3 sync build/ s3://trade.dmitryaleks.com"
   },
   "eslintConfig": {
     "extends": "react-app"
