@@ -73,6 +73,8 @@ class App extends Component {
         const order_list = res.data;
         if (typeof(order_list) != 'string') {
           this.setState({ orders: order_list });
+        } else {
+          this.setState({ orders: [] });
         }
       });
   }
@@ -84,6 +86,8 @@ class App extends Component {
         const trade_list = res.data;
         if (typeof(trade_list) != 'string') {
           this.setState({ trades: trade_list });
+        } else {
+          this.setState({ trades: [] });
         }
       });
   }
