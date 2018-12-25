@@ -1,9 +1,8 @@
 const Config = {
   PROTOCOL: "ws:",
   //HOST: "//localhost",
-  HOST: "//ec2-52-69-225-97.ap-northeast-1.compute.amazonaws.com",
+  HOST: "//simulator.dmitryaleks.com",
   PORT: ":7888"
-
 }
 
 class Socket {
